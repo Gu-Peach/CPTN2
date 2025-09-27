@@ -3,47 +3,32 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, ShoppingBag } from "lucide-react";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
+import Image from "next/image";
 
-const featuredProducts = [
-  {
-    id: "1",
-    name: "经典短袖T恤",
-    price: "¥488",
-    originalPrice: "¥588",
-    image: "/cloth/短袖/CS/CSJ4338 488.JPG",
-    colors: ["黑色", "白色", "灰色"],
-    badge: "热卖",
-  },
-  {
-    id: "2",
-    name: "精品皮鞋",
-    price: "¥1180",
-    originalPrice: "¥1380",
-    image: "/cloth/皮具皮饰/皮鞋/PX S1002 1180.JPG",
-    colors: ["棕色", "黑色"],
-    badge: "精选",
-  },
-  {
-    id: "3",
-    name: "羊毛衫",
-    price: "¥780",
-    originalPrice: "¥980",
-    image: "/cloth/羊毛衫/YM07047 780.JPG",
-    colors: ["米色", "深蓝", "酒红"],
-    badge: "限时优惠",
-  },
-  {
-    id: "4",
-    name: "时尚手表",
-    price: "¥6980",
-    originalPrice: "¥7980",
-    image: "/cloth/手表/CW 手表/CW AR002L0 6980.jpg",
-    colors: ["银色", "金色"],
-    badge: "精选",
-  },
-];
+export async function ProductShowcase() {
+  // 从不同分类获取一些产品作为特色展示
+  const shortSleeveProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.shortSleeve)
+  ).slice(0, 1);
+  const leatherShoesProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.leatherShoes)
+  ).slice(0, 1);
+  const sweatersProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.sweaters)
+  ).slice(0, 1);
+  const watchesProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.watches)
+  ).slice(0, 1);
 
-export function ProductShowcase() {
+  // 合并产品并添加徽章
+  const featuredProducts = [
+    ...shortSleeveProducts.map((p) => ({ ...p, badge: "热卖" })),
+    ...leatherShoesProducts.map((p) => ({ ...p, badge: "精选" })),
+    ...sweatersProducts.map((p) => ({ ...p, badge: "限时优惠" })),
+    ...watchesProducts.map((p) => ({ ...p, badge: "精选" })),
+  ].slice(0, 4); // 确保只显示4个产品
+
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
@@ -64,9 +49,11 @@ export function ProductShowcase() {
               className="group overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300"
             >
               <div className="relative overflow-hidden">
-                <img
-                  src={product.image || "/placeholder.svg"}
+                <Image
+                  src={product.image}
                   alt={product.name}
+                  width={300}
+                  height={300}
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-3 left-3">
@@ -93,24 +80,9 @@ export function ProductShowcase() {
                 <h3 className="font-semibold mb-2 text-balance">
                   {product.name}
                 </h3>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-lg font-bold text-accent">
-                    {product.price}
-                  </span>
-                  <span className="text-sm text-muted-foreground line-through">
-                    {product.originalPrice}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {product.colors.map((color, index) => (
-                    <span
-                      key={index}
-                      className="text-xs bg-muted px-2 py-1 rounded"
-                    >
-                      {color}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-lg font-bold text-primary mb-3">
+                  {product.price}
+                </p>
                 <Button className="w-full" size="sm">
                   立即购买
                 </Button>

@@ -2,11 +2,11 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getProductsFromDirectory, CATEGORY_PATHS } from "@/lib/product-utils";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 import Image from "next/image";
 
-export default function SocksScarvesPage() {
-  const products = getProductsFromDirectory(CATEGORY_PATHS.socksScarves);
+export default async function SocksScarvesPage() {
+  const products = await getProductsFromSupabase(CATEGORY_PATHS.socksScarves);
 
   return (
     <div className="min-h-screen">

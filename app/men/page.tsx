@@ -3,27 +3,24 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { getProductsFromDirectory, CATEGORY_PATHS } from "@/lib/product-utils";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function MenPage() {
+export default async function MenPage() {
   // 获取每个分类的前4个产品
-  const jacketProducts = getProductsFromDirectory(CATEGORY_PATHS.jackets).slice(
-    0,
-    4
-  );
-  const trenchCoatProducts = getProductsFromDirectory(
-    CATEGORY_PATHS.trenchCoats
+  const jacketProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.jackets)
   ).slice(0, 4);
-  const suitProducts = getProductsFromDirectory(CATEGORY_PATHS.suits).slice(
-    0,
-    4
-  );
-  const pantsProducts = getProductsFromDirectory(CATEGORY_PATHS.pants).slice(
-    0,
-    4
-  );
+  const trenchCoatProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.trenchCoats)
+  ).slice(0, 4);
+  const suitProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.suits)
+  ).slice(0, 4);
+  const pantsProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.pants)
+  ).slice(0, 4);
 
   return (
     <div className="min-h-screen">

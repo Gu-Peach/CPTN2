@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { getProductsFromDirectory, CATEGORY_PATHS } from "@/lib/product-utils";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 
-export default function SuitsPage() {
+export default async function SuitsPage() {
   // 动态获取西装产品
-  const products = getProductsFromDirectory(CATEGORY_PATHS.suits);
+  const products = await getProductsFromSupabase(CATEGORY_PATHS.suits);
 
   return (
     <div className="container mx-auto px-4 py-8">

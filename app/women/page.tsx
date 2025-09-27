@@ -3,65 +3,15 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
+import Image from "next/image";
 
-const womenProducts = [
-  {
-    id: 1,
-    name: "女士瑜伽套装",
-    price: "¥499",
-    originalPrice: "¥699",
-    image: "/women-yoga-outfit-set.jpg",
-    badge: "热销",
-    category: "套装",
-  },
-  {
-    id: 2,
-    name: "女士跑步鞋",
-    price: "¥799",
-    originalPrice: "¥1199",
-    image: "/women-running-shoes-pink.jpg",
-    badge: "新品",
-    category: "鞋类",
-  },
-  {
-    id: 3,
-    name: "女士运动内衣",
-    price: "¥199",
-    originalPrice: "¥299",
-    image: "/women-sports-bra.jpg",
-    badge: "舒适",
-    category: "内衣",
-  },
-  {
-    id: 4,
-    name: "女士运动外套",
-    price: "¥699",
-    originalPrice: "¥899",
-    image: "/placeholder.svg?height=400&width=400",
-    badge: "防风",
-    category: "外套",
-  },
-  {
-    id: 5,
-    name: "女士健身裤",
-    price: "¥399",
-    originalPrice: "¥599",
-    image: "/placeholder.svg?height=400&width=400",
-    badge: "弹性",
-    category: "下装",
-  },
-  {
-    id: 6,
-    name: "女士运动鞋",
-    price: "¥899",
-    originalPrice: "¥1299",
-    image: "/placeholder.svg?height=400&width=400",
-    badge: "轻便",
-    category: "鞋类",
-  },
-];
+export default async function WomenPage() {
+  // 从Supabase获取女装产品
+  const womenProducts = await getProductsFromSupabase(
+    CATEGORY_PATHS.womenClothing
+  );
 
-export default function WomenPage() {
   return (
     <div className="min-h-screen">
       <Header />
@@ -106,7 +56,9 @@ export default function WomenPage() {
                   className="group overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300"
                 >
                   <div className="relative overflow-hidden">
-                    <img
+                    <Image
+                      width={400}
+                      height={400}
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
                       className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -116,12 +68,7 @@ export default function WomenPage() {
                         variant="secondary"
                         className="bg-accent text-accent-foreground"
                       >
-                        {product.badge}
-                      </Badge>
-                    </div>
-                    <div className="absolute top-3 right-3">
-                      <Badge variant="outline" className="bg-background/80">
-                        {product.category}
+                        女装
                       </Badge>
                     </div>
                   </div>
@@ -133,9 +80,6 @@ export default function WomenPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg font-bold text-accent">
                         {product.price}
-                      </span>
-                      <span className="text-sm text-muted-foreground line-through">
-                        {product.originalPrice}
                       </span>
                     </div>
                     <Button className="w-full" size="sm">

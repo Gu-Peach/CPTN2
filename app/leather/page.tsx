@@ -2,28 +2,26 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getProductsFromDirectory, CATEGORY_PATHS } from "@/lib/product-utils";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function LeatherPage() {
+export default async function LeatherPage() {
   // 获取每个分类的前4个产品
-  const walletProducts = getProductsFromDirectory(CATEGORY_PATHS.wallets).slice(
-    0,
-    4
-  );
-  const beltProducts = getProductsFromDirectory(CATEGORY_PATHS.belts).slice(
-    0,
-    4
-  );
-  const bagProducts = getProductsFromDirectory(
-    CATEGORY_PATHS.leatherBags
+  const walletProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.wallets)
   ).slice(0, 4);
-  const shoeProducts = getProductsFromDirectory(
-    CATEGORY_PATHS.leatherShoes
+  const beltProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.belts)
   ).slice(0, 4);
-  const clothingProducts = getProductsFromDirectory(
-    CATEGORY_PATHS.leatherClothing
+  const bagProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.leatherBags)
+  ).slice(0, 4);
+  const shoeProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.leatherShoes)
+  ).slice(0, 4);
+  const clothingProducts = (
+    await getProductsFromSupabase(CATEGORY_PATHS.leatherClothing)
   ).slice(0, 4);
 
   return (

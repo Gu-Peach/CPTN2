@@ -2,11 +2,11 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getProductsFromDirectory, CATEGORY_PATHS } from "@/lib/product-utils";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 import Image from "next/image";
 
-export default function ShortSleevePage() {
-  const products = getProductsFromDirectory(CATEGORY_PATHS.shortSleeve);
+export default async function ShortSleevePage() {
+  const products = await getProductsFromSupabase(CATEGORY_PATHS.shortSleeve);
 
   return (
     <div className="min-h-screen">

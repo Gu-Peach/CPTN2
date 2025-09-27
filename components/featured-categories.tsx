@@ -1,32 +1,43 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 
-const categories = [
-  {
-    title: "皮具精品",
-    description: "高品质皮革制品，展现优雅品味",
-    image: "/cloth/皮具皮饰/皮鞋/PX S1001 1180.JPG",
-    href: "/leather",
-    badge: "精选",
-  },
-  {
-    title: "时尚手表",
-    description: "精准计时，彰显个人风格",
-    image: "/cloth/手表/CW 手表/CW AR001L0 6980.jpg",
-    href: "/watches",
-    badge: "热销",
-  },
-  {
-    title: "长袖系列",
-    description: "舒适保暖，时尚百搭",
-    image: "/cloth/长袖/CS/CS01041 368.JPG",
-    href: "/long-sleeve",
-    badge: "新品上市",
-  },
-];
+export async function FeaturedCategories() {
+  // 从不同分类获取一个产品作为分类展示图片
+  const leatherProducts = await getProductsFromSupabase(
+    CATEGORY_PATHS.leatherShoes
+  );
+  const watchProducts = await getProductsFromSupabase(CATEGORY_PATHS.watches);
+  const longSleeveProducts = await getProductsFromSupabase(
+    CATEGORY_PATHS.longSleeve
+  );
 
-export function FeaturedCategories() {
+  const categories = [
+    {
+      title: "皮具精品",
+      description: "高品质皮革制品，展现优雅品味",
+      image: leatherProducts[0]?.image || "/placeholder.svg",
+      href: "/leather",
+      badge: "精选",
+    },
+    {
+      title: "时尚手表",
+      description: "精准计时，彰显个人风格",
+      image: watchProducts[0]?.image || "/placeholder.svg",
+      href: "/watches",
+      badge: "热销",
+    },
+    {
+      title: "长袖系列",
+      description: "舒适保暖，时尚百搭",
+      image: longSleeveProducts[0]?.image || "/placeholder.svg",
+      href: "/long-sleeve",
+      badge: "新品上市",
+    },
+  ];
+
   return (
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -46,9 +57,11 @@ export function FeaturedCategories() {
               className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <div className="relative overflow-hidden">
-                <img
-                  src={category.image || "/placeholder.svg"}
+                <Image
+                  src={category.image}
                   alt={category.title}
+                  width={400}
+                  height={256}
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-4 left-4">

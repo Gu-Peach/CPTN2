@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import { listFilesInPath, getSupabaseImageUrl } from "./supabase";
 
 export interface Product {
   id: string;
@@ -8,30 +7,26 @@ export interface Product {
   price: string;
 }
 
-export function getProductsFromDirectory(categoryPath: string): Product[] {
+// 从Supabase存储获取产品数据
+export async function getProductsFromSupabase(
+  categoryPath: string
+): Promise<Product[]> {
   try {
-    const fullPath = path.join(process.cwd(), "public", categoryPath);
-
-    // 检查目录是否存在
-    if (!fs.existsSync(fullPath)) {
-      console.warn(`Directory not found: ${fullPath}`);
-      return [];
-    }
-
-    const files = fs.readdirSync(fullPath);
+    const files = await listFilesInPath(
+      "clothes",
+      `cloth/cloth/${categoryPath}`
+    );
 
     // 过滤出图片文件
     const imageFiles = files.filter((file) => {
-      const ext = path.extname(file).toLowerCase();
-      return (
-        [".jpg", ".jpeg", ".png", ".webp"].includes(ext) &&
-        !file.startsWith(".")
-      );
+      if (!file.name || file.name.includes("/")) return false;
+      const ext = file.name.toLowerCase().split(".").pop();
+      return ["jpg", "jpeg", "png", "webp"].includes(ext || "");
     });
 
     // 转换为产品对象
     const products: Product[] = imageFiles.map((file, index) => {
-      const nameWithoutExt = path.parse(file).name;
+      const nameWithoutExt = file.name!.replace(/\.[^/.]+$/, "");
       // 从文件名中提取价格（如果存在）
       const priceMatch = nameWithoutExt.match(/(\d+)$/);
       const price = priceMatch ? `¥${priceMatch[1]}` : "价格待定";
@@ -41,41 +36,102 @@ export function getProductsFromDirectory(categoryPath: string): Product[] {
         ? nameWithoutExt.replace(/\s*\d+$/, "").trim()
         : nameWithoutExt;
 
+      const imageUrl = getSupabaseImageUrl(
+        "clothes",
+        `cloth/cloth/${categoryPath}/${file.name}`
+      );
+
       return {
         id: `${categoryPath.replace(/[\/\\]/g, "-")}-${index + 1}`,
         name: nameWithoutPrice,
-        image: `/${categoryPath}/${file}`,
+        image: imageUrl,
         price: price,
       };
     });
 
     return products;
   } catch (error) {
-    console.error(`Error reading directory ${categoryPath}:`, error);
+    console.error(
+      `Error fetching products from Supabase for ${categoryPath}:`,
+      error
+    );
     return [];
   }
 }
 
-// 预定义的分类路径
+// 兼容旧的函数，但现在返回空数组（因为本地文件已移至Supabase）
+export function getProductsFromDirectory(categoryPath: string): Product[] {
+  console.warn(
+    "getProductsFromDirectory is deprecated. Use getProductsFromSupabase instead."
+  );
+  return [];
+}
+
+// 更新的分类路径，使用拼音首字母
 export const CATEGORY_PATHS = {
-  // 男子类别
-  jackets: "cloth/男子/夹克",
-  trenchCoats: "cloth/男子/风衣",
-  suits: "cloth/男子/西装",
-  pants: "cloth/男子/裤子",
+  // 男子类别 (man)
+  jackets: "man/JK", // 夹克
+  trenchCoats: "man/FY", // 风衣
+  suits: "man/XZ", // 西装
+  pants: "man/KZ", // 裤子
 
-  // 皮具皮饰类别
-  wallets: "cloth/皮具皮饰/钱包",
-  belts: "cloth/皮具皮饰/皮带",
-  leatherBags: "cloth/皮具皮饰/皮包",
-  leatherShoes: "cloth/皮具皮饰/皮鞋",
-  leatherClothing: "cloth/皮具皮饰/皮装",
+  // 皮具皮饰类别 (PJPS)
+  wallets: "PJPS/QB", // 钱包
+  belts: "PJPS/PD", // 皮带
+  leatherBags: "PJPS/PB", // 皮包
+  leatherShoes: "PJPS/PX", // 皮鞋
+  leatherClothing: "PJPS/PZ", // 皮装
 
-  // 其他类别
-  sweaters: "cloth/羊毛衫",
-  watches: "cloth/手表",
-  longSleeve: "cloth/长袖",
-  shortSleeve: "cloth/短袖",
-  cufflinks: "cloth/袖扣",
-  socksScarves: "cloth/袜子 围巾",
+  // 女子类别 (woman)
+  womenClothing: "woman", // 女装
+
+  // 其他类别 - 根据您的图片，我看到了这些文件夹
+  sweaters: "YMS", // 羊毛衫 (YangMaoShan)
+  watches: "SB", // 手表 (ShouBiao)
+  longSleeve: "CX", // 长袖 (ChangXiu)
+  shortSleeve: "DX", // 短袖 (DuanXiu)
+  cufflinks: "XK", // 袖扣 (XiuKou)
+  socksScarves: "WZWJ", // 袜子围巾 (WaZiWeiJin)
+} as const;
+
+// 子分类映射
+export const SUB_CATEGORY_PATHS = {
+  // 长袖子分类
+  longSleeveShirts: "CS", // 衬衫 (ChenShan)
+  longSleeveTShirts: "TX", // T恤 (TXu)
+
+  // 手表子分类
+  watchBands: "BD", // 表带 (BiaoDai)
+  watches: "SB", // 手表 (ShouBiao)
+} as const;
+
+// 获取所有子分类产品
+export async function getAllSubCategoryProducts(
+  mainCategory: string,
+  subCategories: string[]
+): Promise<{ [key: string]: Product[] }> {
+  const results: { [key: string]: Product[] } = {};
+
+  for (const subCategory of subCategories) {
+    try {
+      const products = await getProductsFromSupabase(subCategory);
+      results[subCategory] = products;
+    } catch (error) {
+      console.error(`Error fetching products for ${subCategory}:`, error);
+      results[subCategory] = [];
+    }
+  }
+
+  return results;
+}
+
+// 子分类信息
+export const SUB_CATEGORY_INFO = {
+  // 长袖子分类
+  CS: { name: "衬衫", description: "商务休闲衬衫" },
+  TX: { name: "T恤", description: "舒适长袖T恤" },
+
+  // 手表子分类
+  BD: { name: "表带", description: "精美表带配件" },
+  SB: { name: "手表", description: "精致腕表" },
 } as const;

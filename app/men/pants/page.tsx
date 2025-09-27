@@ -1,17 +1,17 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { getProductsFromDirectory, CATEGORY_PATHS } from "@/lib/product-utils";
+import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 
-export default function PantsPage() {
+export default async function PantsPage() {
   // 动态获取裤子产品
-  const products = getProductsFromDirectory(CATEGORY_PATHS.pants);
+  const products = await getProductsFromSupabase(CATEGORY_PATHS.pants);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-4">裤子系列</h1>
         <p className="text-muted-foreground">
-          探索我们精选的男士裤子系列，舒适与时尚的完美结合。 共找到{" "}
+          探索我们精选的男士裤子系列，从休闲到正式，满足您的各种需求。 共找到{" "}
           {products.length} 件商品。
         </p>
       </div>
