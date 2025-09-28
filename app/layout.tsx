@@ -5,9 +5,21 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: "CAPTAINO",
+  description:
+    "CAPTAINO - 精品时尚购物平台，提供优质男装、女装、皮具、手表等时尚单品",
+  generator: "CAPTAINO",
+  icons: {
+    icon: [
+      {
+        url: "/6b6cf1d6bb7b344fef1a43b6846ad835.png",
+        sizes: "any",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/6b6cf1d6bb7b344fef1a43b6846ad835.png",
+    apple: "/6b6cf1d6bb7b344fef1a43b6846ad835.png",
+  },
 };
 
 export default function RootLayout({
