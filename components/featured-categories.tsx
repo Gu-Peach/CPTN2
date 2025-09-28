@@ -9,10 +9,17 @@ export async function FeaturedCategories() {
   const leatherProducts = await getProductsFromSupabase(
     CATEGORY_PATHS.leatherShoes
   );
-  const watchProducts = await getProductsFromSupabase(CATEGORY_PATHS.watches);
-  const longSleeveProducts = await getProductsFromSupabase(
-    CATEGORY_PATHS.longSleeve
-  );
+  // 修正手表路径 - 获取手表系列
+  const watchProducts = await getProductsFromSupabase("SB/SB");
+  // 修正长袖路径 - 获取长袖衬衫系列
+  const longSleeveProducts = await getProductsFromSupabase("CX/CS");
+
+  // 随机选择图片的函数
+  const getRandomProduct = (products: any[]) => {
+    if (products.length === 0) return null;
+    const randomIndex = Math.floor(Math.random() * products.length);
+    return products[randomIndex];
+  };
 
   const categories = [
     {
@@ -25,14 +32,14 @@ export async function FeaturedCategories() {
     {
       title: "时尚手表",
       description: "精准计时，彰显个人风格",
-      image: watchProducts[0]?.image || "/placeholder.svg",
+      image: getRandomProduct(watchProducts)?.image || "/placeholder.svg",
       href: "/watches",
       badge: "热销",
     },
     {
       title: "长袖系列",
       description: "舒适保暖，时尚百搭",
-      image: longSleeveProducts[0]?.image || "/placeholder.svg",
+      image: getRandomProduct(longSleeveProducts)?.image || "/placeholder.svg",
       href: "/long-sleeve",
       badge: "新品上市",
     },

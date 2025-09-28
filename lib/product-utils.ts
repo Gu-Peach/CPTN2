@@ -101,8 +101,8 @@ export const SUB_CATEGORY_PATHS = {
   longSleeveTShirts: "TX", // T恤 (TXu)
 
   // 手表子分类
-  watchBands: "BD", // 表带 (BiaoDai)
-  watches: "SB", // 手表 (ShouBiao)
+  watchBands: "SB/BD", // 表带 (BiaoDai) - 在SB文件夹下的BD子文件夹
+  watches: "SB/SB", // 手表 (ShouBiao) - 在SB文件夹下的SB子文件夹
 } as const;
 
 // 获取所有子分类产品

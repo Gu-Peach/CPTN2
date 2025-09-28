@@ -21,9 +21,13 @@ const categories = [
     name: "女子",
     href: "/women",
     subcategories: [
-      { name: "运动鞋", href: "/women/shoes" },
-      { name: "服装", href: "/women/clothing" },
-      { name: "配件", href: "/women/accessories" },
+      { name: "ND NF NY", href: "/women/nd-nf-ny" },
+      { name: "NK", href: "/women/nk" },
+      { name: "NQ", href: "/women/nq" },
+      { name: "NS", href: "/women/ns" },
+      { name: "NT", href: "/women/nt" },
+      { name: "NX", href: "/women/nx" },
+      { name: "PX", href: "/women/px" },
     ],
   },
   {
@@ -45,17 +49,26 @@ const categories = [
   {
     name: "手表",
     href: "/watches",
-    subcategories: [{ name: "查看全部", href: "/watches" }],
+    subcategories: [
+      { name: "手表系列", href: "/watches/watches" },
+      { name: "表带系列", href: "/watches/bands" },
+    ],
   },
   {
     name: "长袖",
     href: "/long-sleeve",
-    subcategories: [{ name: "查看全部", href: "/long-sleeve" }],
+    subcategories: [
+      { name: "衬衫系列", href: "/long-sleeve/shirts" },
+      { name: "T恤系列", href: "/long-sleeve/tshirts" },
+    ],
   },
   {
     name: "短袖",
     href: "/short-sleeve",
-    subcategories: [{ name: "查看全部", href: "/short-sleeve" }],
+    subcategories: [
+      { name: "短袖衬衫", href: "/short-sleeve/shirts" },
+      { name: "短袖T恤", href: "/short-sleeve/tshirts" },
+    ],
   },
   {
     name: "袖扣",

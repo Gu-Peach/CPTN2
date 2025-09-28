@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -9,11 +9,7 @@ export function HeroSection() {
       {/* Hero Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
         <div className="max-w-2xl text-white">
-          <div className="mb-4">
-            <span className="text-sm font-medium bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
-              2025.09.19 - 09.30
-            </span>
-          </div>
+          <div className="mb-4"></div>
 
           <h1 className="text-6xl md:text-8xl font-bold mb-6 text-balance">
             早秋
@@ -24,7 +20,7 @@ export function HeroSection() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Button size="lg" className="bg-white text-black hover:bg-white/90">
-              选购 Just Do It 精选同款
+              选购精选商品
             </Button>
             <Button
               size="lg"
@@ -64,5 +60,5 @@ export function HeroSection() {
       {/* Background Image Placeholder */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-primary/80"></div>
     </section>
-  )
+  );
 }
