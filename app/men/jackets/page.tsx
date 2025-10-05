@@ -2,6 +2,8 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 
+export const dynamic = 'force-dynamic';
+
 export default async function JacketsPage() {
   // 动态获取夹克产品
   const products = await getProductsFromSupabase(CATEGORY_PATHS.jackets);

@@ -5,6 +5,8 @@ import { getProductsFromSupabase } from "@/lib/product-utils";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
+export const dynamic = 'force-dynamic';
+
 export default async function NsPage() {
   // 动态获取NS产品
   const products = await getProductsFromSupabase("woman/NS");

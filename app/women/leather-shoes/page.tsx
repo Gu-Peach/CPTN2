@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { getProductsFromSupabase } from "@/lib/product-utils";
 import Image from "next/image";
 
+export const dynamic = 'force-dynamic';
+
 export default async function WomenLeatherShoesPage() {
   const products = await getProductsFromSupabase("woman/PX"); // 女子皮鞋
 

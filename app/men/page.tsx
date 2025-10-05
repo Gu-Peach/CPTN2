@@ -7,6 +7,8 @@ import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 import Link from "next/link";
 import Image from "next/image";
 
+export const dynamic = 'force-dynamic';
+
 export default async function MenPage() {
   // 获取每个分类的前4个产品
   const jacketProducts = (

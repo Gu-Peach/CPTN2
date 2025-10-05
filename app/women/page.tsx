@@ -7,6 +7,8 @@ import { getProductsFromSupabase } from "@/lib/product-utils";
 import Image from "next/image";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic';
+
 export default async function WomenPage() {
   // 根据 Supabase 存储结构定义女装分类 - 只有最右边的7个文件夹
   const categories = [

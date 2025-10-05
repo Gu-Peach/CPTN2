@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { getProductsFromSupabase } from "@/lib/product-utils";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function TShirtsPage() {
   const products = await getProductsFromSupabase("CX/TX"); // T恤
 

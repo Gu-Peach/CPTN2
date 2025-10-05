@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function ClothingPage() {
   const products = await getProductsFromSupabase(
     CATEGORY_PATHS.leatherClothing

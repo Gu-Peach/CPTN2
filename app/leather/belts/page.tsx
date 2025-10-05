@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { getProductsFromSupabase, CATEGORY_PATHS } from "@/lib/product-utils";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function BeltsPage() {
   // 动态获取皮带产品
   const products = await getProductsFromSupabase(CATEGORY_PATHS.belts);
