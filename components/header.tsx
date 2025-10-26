@@ -17,19 +17,19 @@ const categories = [
       { name: "裤子系列", href: "/men/pants" },
     ],
   },
-  {
-    name: "女子",
-    href: "/women",
-    subcategories: [
-      { name: "ND NF NY", href: "/women/nd-nf-ny" },
-      { name: "NK", href: "/women/nk" },
-      { name: "NQ", href: "/women/nq" },
-      { name: "NS", href: "/women/ns" },
-      { name: "NT", href: "/women/nt" },
-      { name: "NX", href: "/women/nx" },
-      { name: "PX", href: "/women/px" },
-    ],
-  },
+  // {
+  //   name: "女子",
+  //   href: "/women",
+  //   subcategories: [
+  //     { name: "ND NF NY", href: "/women/nd-nf-ny" },
+  //     { name: "NK", href: "/women/nk" },
+  //     { name: "NQ", href: "/women/nq" },
+  //     { name: "NS", href: "/women/ns" },
+  //     { name: "NT", href: "/women/nt" },
+  //     { name: "NX", href: "/women/nx" },
+  //     { name: "PX", href: "/women/px" },
+  //   ],
+  // },
   {
     name: "皮具皮饰",
     href: "/leather",
